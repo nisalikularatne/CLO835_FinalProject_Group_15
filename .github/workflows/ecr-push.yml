@@ -50,6 +50,6 @@ jobs:
           IMAGE_TAG: "latest"
         run: |
           docker build -t $ECR_REGISTRY/${DATABASE_ECR_PREFIX}:${IMAGE_TAG} -f Dockerfile_mysql .
-          docker build -t $ECR_REGISTRY/${APPLICATION_ECR_PREFIX}-:${IMAGE_TAG} .
+          docker build -t $ECR_REGISTRY/${APPLICATION_ECR_PREFIX}:${IMAGE_TAG} .
           docker push $ECR_REGISTRY/${DATABASE_ECR_PREFIX}:${IMAGE_TAG}
           docker push $ECR_REGISTRY/${APPLICATION_ECR_PREFIX}:${IMAGE_TAG}
