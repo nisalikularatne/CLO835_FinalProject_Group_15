@@ -4,7 +4,6 @@ import os
 import random
 import argparse
 
-
 app = Flask(__name__)
 
 DBHOST = os.environ.get("DBHOST") or "localhost"
@@ -13,6 +12,7 @@ DBPWD = os.environ.get("DBPWD") or "passwors"
 DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
 DBPORT = int(os.environ.get("DBPORT"))
+BACKGROUND_IMAGE = os.environ.get("BACKGROUND_IMAGE") or "Image Text as No Input"
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -47,11 +47,11 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', color=color_codes[COLOR])
+    return render_template('addemp.html', background_image = BACKGROUND_IMAGE)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
-    return render_template('about.html', color=color_codes[COLOR])
+    return render_template('about.html', background_image = BACKGROUND_IMAGE)
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -79,7 +79,7 @@ def AddEmp():
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
-    return render_template("getemp.html", color=color_codes[COLOR])
+    return render_template("getemp.html", background_image = BACKGROUND_IMAGE)
 
 
 @app.route("/fetchdata", methods=['GET','POST'])
