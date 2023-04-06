@@ -46,6 +46,7 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
+    print('show me the background image url',BACKGROUND_IMAGE)
     return render_template('addemp.html', background_image = BACKGROUND_IMAGE)
 
 @app.route("/about", methods=['GET','POST'])
