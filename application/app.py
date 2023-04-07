@@ -3,7 +3,8 @@ from pymysql import connections
 import os
 import random
 import argparse
-
+import boto3
+import botocore
 app = Flask(__name__)
 
 DBHOST = os.environ.get("DBHOST") or "localhost"
@@ -12,14 +13,14 @@ DBPWD = os.environ.get("DBPWD") or "passwors"
 DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
 DBPORT = int(os.environ.get("DBPORT"))
-BACKGROUND_IMAGE = os.environ.get("BACKGROUND_IMAGE") or "Image Text as No Input"
+BACKGROUND_IMAGE = os.environ.get("BACKGROUND_IMAGE") or "Invalid Image been passed"
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
     host= DBHOST,
     port=DBPORT,
     user= DBUSER,
-    password= DBPWD, 
+    password= DBPWD,
     db= DATABASE
 )
 output = {}
@@ -48,6 +49,32 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 def home():
     print('show me the background image url',BACKGROUND_IMAGE)
     return render_template('addemp.html', background_image = BACKGROUND_IMAGE)
+@app.route("/download", methods=['GET','POST'])
+  #https://privatebucketclo835.s3.amazonaws.com/minionparty.png
+def download(image_url):
+   try:
+         bucket = image_url.split('//')[1].split('.')[0]
+         object_name = '/'.join(image_url.split('//')[1].split('/')[1:])
+         print(bucket)  # prints 'privatebucketclo835'
+         print(object_name)  # prints 'minionparty.png'
+         s3 = boto3.resource('s3')
+         output_dir = "downloads"
+         if not os.path.exists(output_dir):
+                 os.makedirs(output_dir)
+         output = os.path.join(output_dir, "background_image.png")
+         s3.Bucket(bucket).download_file(object_name, output)
+
+         return output
+
+   except botocore.exceptions.ClientError as e:
+                if e.response['Error']['Code'] == "404":
+                    print("The object does not exist.")
+                else:
+                    raise
+
+
+
+
 
 @app.route("/about", methods=['GET','POST'])
 def about():
@@ -111,7 +138,7 @@ def FetchData():
                            lname=output["last_name"], interest=output["primary_skills"], location=output["location"], color=color_codes[COLOR])
 
 if __name__ == '__main__':
-    
+    download(BACKGROUND_IMAGE)
     # Check for Command Line Parameters for color
     parser = argparse.ArgumentParser()
     parser.add_argument('--color', required=False)
