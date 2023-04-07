@@ -44,11 +44,11 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 # Generate a random color
 COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
-
+image_url = url_for('static', filename='background_image.png')
 @app.route("/", methods=['GET', 'POST'])
 def home():
     print('show me the background image url',BACKGROUND_IMAGE)
-    return render_template('addemp.html', background_image = BACKGROUND_IMAGE)
+    return render_template('addemp.html', background_image = image_url)
 @app.route("/download", methods=['GET','POST'])
   #https://privatebucketclo835.s3.amazonaws.com/minionparty.png
 def download(image_url):
@@ -58,7 +58,7 @@ def download(image_url):
          print(bucket)  # prints 'privatebucketclo835'
          print(object_name)  # prints 'minionparty.png'
          s3 = boto3.resource('s3')
-         output_dir = "downloads"
+         output_dir = "static"
          if not os.path.exists(output_dir):
                  os.makedirs(output_dir)
          output = os.path.join(output_dir, "background_image.png")
@@ -78,7 +78,7 @@ def download(image_url):
 
 @app.route("/about", methods=['GET','POST'])
 def about():
-    return render_template('about.html', background_image = BACKGROUND_IMAGE)
+    return render_template('about.html', background_image = image_url)
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -106,7 +106,7 @@ def AddEmp():
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
-    return render_template("getemp.html", background_image = BACKGROUND_IMAGE)
+    return render_template("getemp.html", background_image = image_url)
 
 
 @app.route("/fetchdata", methods=['GET','POST'])
