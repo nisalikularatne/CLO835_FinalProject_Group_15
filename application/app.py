@@ -44,10 +44,10 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 # Generate a random color
 COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
-image_url = url_for('static', filename='background_image.png')
 @app.route("/", methods=['GET', 'POST'])
 def home():
     print('show me the background image url',BACKGROUND_IMAGE)
+    image_url = url_for('static', filename='background_image.png')
     return render_template('addemp.html', background_image = image_url)
 @app.route("/download", methods=['GET','POST'])
   #https://privatebucketclo835.s3.amazonaws.com/minionparty.png
@@ -78,10 +78,12 @@ def download(image_url):
 
 @app.route("/about", methods=['GET','POST'])
 def about():
+    image_url = url_for('static', filename='background_image.png')
     return render_template('about.html', background_image = image_url)
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
+    image_url = url_for('static', filename='background_image.png')
     emp_id = request.form['emp_id']
     first_name = request.form['first_name']
     last_name = request.form['last_name']
@@ -106,6 +108,7 @@ def AddEmp():
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
+    image_url = url_for('static', filename='background_image.png')
     return render_template("getemp.html", background_image = image_url)
 
 
