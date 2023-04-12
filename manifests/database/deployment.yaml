@@ -1,12 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: database
+  name: mysql
   labels:
     app: mysql
 
 spec:
-  replicas: 3
   selector:
     matchLabels:
       app: mysql
@@ -19,7 +18,7 @@ spec:
     spec:
       containers:
         - name: database-container
-          image: 061186295720.dkr.ecr.us-east-1.amazonaws.com/docker-containers-database-repo:latest
+          image: 983372048879.dkr.ecr.us-east-1.amazonaws.com/docker-prod-containers-database:latest
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -28,3 +27,13 @@ spec:
                   key: MYSQL_ROOT_PASSWORD
           ports:
             - containerPort: 3306
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc  
+
+
