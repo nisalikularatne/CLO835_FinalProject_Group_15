@@ -14,6 +14,7 @@ DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
 DBPORT = int(os.environ.get("DBPORT"))
 BACKGROUND_IMAGE = os.environ.get("BACKGROUND_IMAGE") or "Invalid Image been passed"
+GROUP_NAME = os.environ.get('GROUP_NAME') or "GROUP15"
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -48,7 +49,7 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 def home():
     print('show me the background image url',BACKGROUND_IMAGE)
     image_url = url_for('static', filename='background_image.png')
-    return render_template('addemp.html', background_image = image_url)
+    return render_template('addemp.html', background_image = image_url, group_name = GROUP_NAME)
 @app.route("/download", methods=['GET','POST'])
   #https://privatebucketclo835.s3.amazonaws.com/minionparty.png
 def download(image_url):
@@ -79,7 +80,7 @@ def download(image_url):
 @app.route("/about", methods=['GET','POST'])
 def about():
     image_url = url_for('static', filename='background_image.png')
-    return render_template('about.html', background_image = image_url)
+    return render_template('about.html', background_image = image_url, group_name = GROUP_NAME)
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -104,12 +105,12 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('addempoutput.html', name=emp_name, color=color_codes[COLOR])
+    return render_template('addempoutput.html', name=emp_name, color=color_codes[COLOR], group_name = GROUP_NAME)
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
     image_url = url_for('static', filename='background_image.png')
-    return render_template("getemp.html", background_image = image_url)
+    return render_template("getemp.html", background_image = image_url, group_name = GROUP_NAME)
 
 
 @app.route("/fetchdata", methods=['GET','POST'])
@@ -138,7 +139,7 @@ def FetchData():
         cursor.close()
 
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
-                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], color=color_codes[COLOR])
+                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], color=color_codes[COLOR], group_name = GROUP_NAME)
 
 if __name__ == '__main__':
     download(BACKGROUND_IMAGE)
