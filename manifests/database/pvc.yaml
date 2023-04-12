@@ -3,4 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: mysql-pvc
 spec:
+  resources:
+    requests:
+      storage: 2Gi
   storageClassName: gp2
