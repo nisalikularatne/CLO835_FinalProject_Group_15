@@ -26,13 +26,23 @@ spec:
             - name: DBPWD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-root-password
+                  name: secrets
                   key: MYSQL_ROOT_PASSWORD
+            - name: DBHOST
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: DBHOST
+            - name: DBUSER
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: DBUSER   
             - name: DBPORT
               value: "3306"
-            - name: DBHOST
-              value: "database.database.svc.cluster.local"
-            - name: DBUSER
-              value: "root"
+  
+          envFrom:
+            - configMapRef:
+                name: clo835    
           ports:
-            - containerPort: 81
+              - containerPort: 81
