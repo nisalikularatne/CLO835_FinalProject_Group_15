@@ -7,6 +7,7 @@ import boto3
 import botocore
 app = Flask(__name__)
 
+
 DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
 DBPWD = os.environ.get("DBPWD") or "passwors"
