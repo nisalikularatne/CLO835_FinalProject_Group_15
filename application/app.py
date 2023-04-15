@@ -58,6 +58,7 @@ def download(image_url):
          object_name = '/'.join(image_url.split('//')[1].split('/')[1:])
          print(bucket)  # prints 'privatebucketclo835'
          print(object_name)  # prints 'minionparty.png'
+         print("Background Image Location --->" + image_url)
          s3 = boto3.resource('s3')
          output_dir = "static"
          if not os.path.exists(output_dir):
