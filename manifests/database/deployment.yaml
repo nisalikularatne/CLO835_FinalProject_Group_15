@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
+  namespace: final
   labels:
     app: mysql
 
@@ -18,7 +19,7 @@ spec:
     spec:
       containers:
         - name: database-container
-          image: 983372048879.dkr.ecr.us-east-1.amazonaws.com/docker-prod-containers-database:latest
+          image: 987242725346.dkr.ecr.us-east-1.amazonaws.com/docker-prod-containers-database:latest
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -34,6 +35,6 @@ spec:
       volumes:
         - name: mysql-data
           persistentVolumeClaim:
-            claimName: mysql-pvc  
+            claimName: database-pvc  
 
 

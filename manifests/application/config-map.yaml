@@ -5,3 +5,4 @@ metadata:
   namespace: final
 data:
   BACKGROUND_IMAGE: "https://privatebucketclo835.s3.amazonaws.com/shrek.jpeg"
+  GROUP_NAME: "Group15"
